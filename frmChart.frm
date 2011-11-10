@@ -75,10 +75,8 @@ Public Sub DrawGrid()
   picChart.Line (0, picChart.Height / 2)-(picChart.Width, picChart.Height / 2)
   picChart.ForeColor = RGB(0, 64, 0)
   
-  If frmSearchInfo.lsvValue.ListItems.Count > mHGrids Then
-    mHGrids = frmSearchInfo.lsvValue.ListItems.Count
-    mStepWidth = picChart.Width / mHGrids
-  End If
+  mHGrids = frmSearchInfo.lsvValue.ListItems.Count
+  mStepWidth = picChart.Width / mHGrids
   
   For i = 1 To mHGrids - 1
     picChart.Line (i * mStepWidth, 0)-(i * mStepWidth, picChart.Height)

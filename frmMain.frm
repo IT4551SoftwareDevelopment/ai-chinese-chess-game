@@ -369,6 +369,9 @@ Private Sub ClickSquare(sq As Byte)
             mMoveCount = Round(CSng(.ListIndex) / 2 + 0.1)
             Dim i As Integer
             For i = .ListCount - 1 To .ListIndex + 1 Step -1
+              If Left(.List(i), 1) = " " Then
+                frmSearchInfo.lsvValue.ListItems.Remove frmSearchInfo.lsvValue.ListItems.Count
+              End If
               .RemoveItem i
             Next i
           Else

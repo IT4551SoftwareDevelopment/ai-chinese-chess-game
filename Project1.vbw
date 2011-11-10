@@ -1,12 +1,12 @@
 frmMain = 0, 0, 632, 696, , 22, 22, 546, 380, C
-PositionStruct = 339, 77, 993, 560, 
+PositionStruct = 252, 142, 906, 625, 
 modPublic = 632, 0, 1264, 714, 
 clsGetOpenDesc = 0, 0, 825, 481, C
 ZobristStruct = 88, 116, 913, 597, 
 RC4Struct = 0, 0, 0, 0, C
 clsSearch = 132, 174, 878, 761, C
 MoveStruct = 198, 261, 944, 848, C
-frmSearchInfo = 154, 203, 908, 798, , 0, 0, 0, 0, C
-frmChart = 154, 203, 900, 790, , 88, 116, 878, 597, C
-frmSettings = 176, 232, 930, 827, Z, 110, 145, 900, 626, C
+frmSearchInfo = 154, 203, 908, 798, , 0, 0, 798, 489, C
+frmChart = 154, 203, 900, 790, Z, 88, 116, 878, 597, C
+frmSettings = 176, 232, 930, 827, , 110, 145, 900, 626, C
 SortStruct = 176, 232, 922, 819, C
