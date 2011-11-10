@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Begin VB.Form frmMain 
-   Caption         =   "VB AI 中国象棋 (Ver 6.1)"
+   Caption         =   "VB AI 中国象棋 (Ver 6.2)"
    ClientHeight    =   8640
    ClientLeft      =   2475
    ClientTop       =   660
