@@ -362,10 +362,17 @@ Private Sub ClickSquare(sq As Byte)
         Xqwl.mvLast = mv
         
         '2011年11月新增功能，记录每步的移动，用于悔棋
+        If lstMoveDesc.ListIndex = -1 Then
+          mbCallFromOutside = True
+          lstMoveDesc.ListIndex = 0
+          mbCallFromOutside = False
+        End If
+        
         With lstMoveDesc
-          If .ListIndex < .ListCount - 1 And .ListIndex > -1 Then
-            ReDim Preserve m_MoveList(0 To .ListIndex + 1)
-            m_MoveList(.ListIndex) = mv
+          ReDim Preserve m_MoveList(0 To .ListIndex + 1)
+          m_MoveList(.ListIndex) = mv
+          
+          If .ListIndex < .ListCount - 1 Then
             mMoveCount = Round(CSng(.ListIndex) / 2 + 0.1)
             Dim i As Integer
             For i = .ListCount - 1 To .ListIndex + 1 Step -1
@@ -374,9 +381,6 @@ Private Sub ClickSquare(sq As Byte)
               End If
               .RemoveItem i
             Next i
-          Else
-            m_MoveList(UBound(m_MoveList)) = mv
-            ReDim Preserve m_MoveList(0 To UBound(m_MoveList) + 1)
           End If
         End With
         
