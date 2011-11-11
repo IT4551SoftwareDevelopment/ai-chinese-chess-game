@@ -209,7 +209,13 @@ Private Const MB_ICONASTERISK = &H40&
 Private Const MB_USERICON = &H80&
 
 Private m_MoveList() As Integer
-Private mbCallFromOutside As Boolean
+
+Private Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
+
+Private Const CB_GETCURSEL = &H147
+Private Const CB_SETCURSEL = &H14E
+Private Const LB_SETCURSEL = &H186
+Private Const LB_GETCURSEL = &H188
 
 '初始化棋局
 Private Sub Startup()
@@ -226,6 +232,7 @@ Private Sub Startup()
   mMoveCount = 0
   lstMoveDesc.Clear
   lstMoveDesc.AddItem "===开始==="
+  SetListIndex lstMoveDesc, 0
 End Sub
  
 Private Sub Form_Load()
@@ -362,12 +369,6 @@ Private Sub ClickSquare(sq As Byte)
         Xqwl.mvLast = mv
         
         '2011年11月新增功能，记录每步的移动，用于悔棋
-        If lstMoveDesc.ListIndex = -1 Then
-          mbCallFromOutside = True
-          lstMoveDesc.ListIndex = 0
-          mbCallFromOutside = False
-        End If
-        
         With lstMoveDesc
           ReDim Preserve m_MoveList(0 To .ListIndex + 1)
           m_MoveList(.ListIndex) = mv
@@ -400,9 +401,7 @@ Private Sub ClickSquare(sq As Byte)
           lstMoveDesc.AddItem CStr(mMoveCount) & "." & GetMoveDesc(mv, False)
         End If
         
-        mbCallFromOutside = True
-        lstMoveDesc.ListIndex = lstMoveDesc.ListCount - 1
-        mbCallFromOutside = False
+        SetListIndex lstMoveDesc, lstMoveDesc.ListCount - 1
         
         '显示开局描述
         pos.sMoveSymbolDesc = pos.sMoveSymbolDesc & GetMoveDesc(mv, False, True)
@@ -539,10 +538,6 @@ End Sub
 
 Private Sub lstMoveDesc_Click()
   Dim i As Integer
-  
-  If mbCallFromOutside Then
-    Exit Sub
-  End If
   
   pos.Startup
   Xqwl.sqSelected = 0
@@ -970,9 +965,7 @@ Private Sub ResponseMove()
     lstMoveDesc.AddItem Space$(Fix(CSng(Log(mMoveCount) / Log(10))) + 2) & GetMoveDesc(Search.mvResult, False)
   End If
   
-  mbCallFromOutside = True
-  lstMoveDesc.ListIndex = lstMoveDesc.ListCount - 1
-  mbCallFromOutside = False
+  SetListIndex lstMoveDesc, lstMoveDesc.ListCount - 1
   
   '显示开局描述
   pos.sMoveSymbolDesc = pos.sMoveSymbolDesc & GetMoveDesc(Search.mvResult, False, True)
@@ -1191,5 +1184,13 @@ Private Sub MessageBoxMute(lpszText As String)
   MessageBoxIndirect mbp
 End Sub
 
-
+Public Function SetListIndex(lst As Control, ByVal NewIndex As Long) As Long
+  If TypeOf lst Is ListBox Then
+    Call SendMessage(lst.hWnd, LB_SETCURSEL, NewIndex, 0&)
+    SetListIndex = SendMessage(lst.hWnd, LB_GETCURSEL, NewIndex, 0&)
+  ElseIf TypeOf lst Is ComboBox Then
+    Call SendMessage(lst.hWnd, CB_SETCURSEL, NewIndex, 0&)
+    SetListIndex = SendMessage(lst.hWnd, CB_GETCURSEL, NewIndex, 0&)
+  End If
+End Function
 
