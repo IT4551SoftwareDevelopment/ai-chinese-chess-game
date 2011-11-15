@@ -956,6 +956,8 @@ Private Sub ResponseMove()
   SearchMain
   Me.MousePointer = vbArrow
   pos.MakeMove Search.mvResult
+  
+  '2011年11月新增功能：
   m_MoveList(UBound(m_MoveList)) = Search.mvResult
   ReDim Preserve m_MoveList(0 To UBound(m_MoveList) + 1)
   
