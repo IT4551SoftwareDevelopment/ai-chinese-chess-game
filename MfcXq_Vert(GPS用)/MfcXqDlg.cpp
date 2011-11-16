@@ -22,6 +22,9 @@ CString CStr(int n)
     return s;
 }
 
+char WinCount = 0;
+char LoseCount = 0;
+
 /////////////////////////////////////////////////////////////////////////////
 // CMfcXqDlg dialog
 
@@ -2124,6 +2127,8 @@ void CMfcXqDlg::ClickSquare(int sq) {
 					PlayResWav(IDR_WIN);
 					::MessageBox(Xqwl.hWnd, L"祝贺你取得胜利！",L"恭喜", MB_OK | MB_ICONINFORMATION);
 					Xqwl.bGameOver = TRUE;
+					WinCount++;
+					SetWindowText(CStr(WinCount) + ":" + CStr(LoseCount));
 				} else if (vlRep > 0) {
 					vlRep = pos.RepValue(vlRep);
 					// 注意："vlRep"是对电脑来说的分值
@@ -2131,6 +2136,16 @@ void CMfcXqDlg::ClickSquare(int sq) {
 					::MessageBox(Xqwl.hWnd, vlRep > WIN_VALUE ? L"长打作负，请不要气馁！" :
 					vlRep < -WIN_VALUE ? L"电脑长打作负，祝贺你取得胜利！" : L"双方不变作和，辛苦了！",L"象棋小巫师", MB_OK | MB_ICONINFORMATION);
 					Xqwl.bGameOver = TRUE;
+					if (vlRep > WIN_VALUE)
+					{
+						LoseCount++;
+						SetWindowText(CStr(WinCount) + ":" + CStr(LoseCount));
+					}
+					else if (vlRep < -WIN_VALUE)
+					{
+						WinCount++;
+						SetWindowText(CStr(WinCount) + ":" + CStr(LoseCount));
+					}
 				} else if (pos.nMoveNum > 100) {
 					PlayResWav(IDR_DRAW);
 					::MessageBox(Xqwl.hWnd, L"超过自然限着作和，辛苦了！",L"象棋小巫师", MB_OK | MB_ICONINFORMATION);
@@ -2185,6 +2200,8 @@ void CMfcXqDlg::ResponseMove(void) {
 		PlayResWav(IDR_LOSS);
 		::MessageBox(Xqwl.hWnd, L"请再接再厉！",L"节哀", MB_OK | MB_ICONINFORMATION);
 		Xqwl.bGameOver = TRUE;
+		LoseCount++;
+		SetWindowText(CStr(WinCount) + ":" + CStr(LoseCount));
 	} else if (vlRep > 0) {
 		vlRep = pos.RepValue(vlRep);
 		// 注意："vlRep"是对玩家来说的分值
@@ -2194,6 +2211,16 @@ void CMfcXqDlg::ResponseMove(void) {
 		vlRep > WIN_VALUE ? L"电脑长打作负，祝贺你取得胜利！" : L"双方不变作和，辛苦了！",L"象棋小巫师", MB_OK | MB_ICONINFORMATION);
 		
 		Xqwl.bGameOver = TRUE;
+		if (vlRep < -WIN_VALUE)
+		{
+			LoseCount++;
+			SetWindowText(CStr(WinCount) + ":" + CStr(LoseCount));
+		}
+		else if (vlRep > WIN_VALUE)
+		{
+			WinCount++;
+			SetWindowText(CStr(WinCount) + ":" + CStr(LoseCount));
+		}
 	} else if (pos.nMoveNum > 100) {
 		PlayResWav(IDR_DRAW);
 		::MessageBox(Xqwl.hWnd, L"超过自然限着作和，辛苦了！", L"象棋小巫师", MB_OK | MB_ICONINFORMATION);
