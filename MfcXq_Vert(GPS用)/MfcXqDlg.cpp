@@ -1764,7 +1764,7 @@ BOOL CMfcXqDlg::OnInitDialog()
 
     frmSInfo.m_lsvValue.SetExtendedStyle(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
 	frmSInfo.m_lsvValue.InsertColumn(1, L"No", LVCFMT_CENTER, 27);
-	frmSInfo.m_lsvValue.InsertColumn(2, L"分数", LVCFMT_CENTER, 36);
+	frmSInfo.m_lsvValue.InsertColumn(2, L"分数", LVCFMT_CENTER, 43);
 	frmSInfo.m_lsvValue.InsertColumn(3, L"深度", LVCFMT_CENTER, 36);
 	frmSInfo.m_lsvValue.InsertColumn(4, L"耗时", LVCFMT_CENTER, 46);
 	frmSInfo.m_lsvValue.InsertColumn(5, L"访问节点数", LVCFMT_CENTER, 76);
@@ -2082,6 +2082,10 @@ void CMfcXqDlg::ClickSquare(int sq) {
 			DrawSquare(DST(Xqwl.mvLast));
 		}
 		PlayResWav(IDR_CLICK); // 播放点击的声音
+		if (m_lstMoveDesc.GetCurSel() < m_lstMoveDesc.GetCount() - 1 && Xqwl.bGameOver)
+		{
+			Xqwl.bGameOver = false;
+		}
 		
 	} else if (Xqwl.sqSelected != 0 && !Xqwl.bGameOver) {
 		// 如果点击的不是自己的子，但有子选中了(一定是自己的子)，那么走这个子
@@ -2104,7 +2108,7 @@ void CMfcXqDlg::ClickSquare(int sq) {
 							m_lstMoveDesc.DeleteString(i);
 						//}
 					}
-					m_pMove = m_lstMoveDesc.GetCurSel() - 1;
+					m_pMove = m_lstMoveDesc.GetCurSel();
 				}
 				m_MoveList[m_pMove] = mv;
 				m_pMove++;
