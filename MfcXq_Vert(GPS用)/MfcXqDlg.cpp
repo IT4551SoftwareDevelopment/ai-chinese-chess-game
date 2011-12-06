@@ -1760,11 +1760,11 @@ BOOL CMfcXqDlg::OnInitDialog()
 
 	frmSInfo.Create(frmSearchInfo, this);
 	frmSInfo.ShowWindow(SW_SHOW);
-	frmSInfo.MoveWindow(270, 1, 300, 270);
+	frmSInfo.MoveWindow(292, 1, 300, 270);
 
     frmSInfo.m_lsvValue.SetExtendedStyle(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
 	frmSInfo.m_lsvValue.InsertColumn(1, L"No", LVCFMT_CENTER, 27);
-	frmSInfo.m_lsvValue.InsertColumn(2, L"分数", LVCFMT_CENTER, 43);
+	frmSInfo.m_lsvValue.InsertColumn(2, L"分数", LVCFMT_CENTER, 46);
 	frmSInfo.m_lsvValue.InsertColumn(3, L"深度", LVCFMT_CENTER, 36);
 	frmSInfo.m_lsvValue.InsertColumn(4, L"耗时", LVCFMT_CENTER, 46);
 	frmSInfo.m_lsvValue.InsertColumn(5, L"访问节点数", LVCFMT_CENTER, 76);
@@ -2099,15 +2099,18 @@ void CMfcXqDlg::ClickSquare(int sq) {
 				if (m_lstMoveDesc.GetCurSel() < m_lstMoveDesc.GetCount() - 1 && m_lstMoveDesc.GetCurSel() > -1)
 				{
 					m_MoveCount = m_lstMoveDesc.GetCurSel() / 2;
-					//CString sMoveDesc;
-					for (int i = m_lstMoveDesc.GetCount() - 1; i >= m_lstMoveDesc.GetCurSel()+1; i--)
+					pos.nMoveNum = m_MoveCount;
+
+					for (int i = m_lstMoveDesc.GetCount() - 1; i >= m_lstMoveDesc.GetCurSel() + 1; i--)
 					{
-						//m_lstMoveDesc.GetText(i, sMoveDesc);
-						//if (sMoveDesc.Left(1) == " ")
-						//{
-							m_lstMoveDesc.DeleteString(i);
-						//}
+						m_lstMoveDesc.DeleteString(i);
 					}
+
+					for (i = frmSInfo.m_lsvValue.GetItemCount() - 1; i >= m_MoveCount; i--)
+					{
+						frmSInfo.m_lsvValue.DeleteItem(i);
+					}
+
 					m_pMove = m_lstMoveDesc.GetCurSel();
 				}
 				m_MoveList[m_pMove] = mv;
